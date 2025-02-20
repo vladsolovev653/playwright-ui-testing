@@ -1,4 +1,4 @@
-name: UI Tests
+name: UI Testing
 
 on:
   workflow_dispatch
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Run your tests
-        run: npx playwright test
+        run: npm test
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
