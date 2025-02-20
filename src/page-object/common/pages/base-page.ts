@@ -1,44 +1,39 @@
 import test, { expect } from "@playwright/test";
 import { BasePageObject } from "../base-page-object";
 import { TemplateStringValues } from "../../../types/template-string-values";
-import { formatTemplateString } from "../../../utils/format-template-string";
+import { TemplateStringUtils } from "../../../utils/template-string-utils";
 
 
 export abstract class BasePage extends BasePageObject {
-  protected abstract readonly url: string | RegExp;
+  protected abstract readonly url: string;
 
   
   public async open(templateValues?: TemplateStringValues) {
-    const url = this.getUrl(templateValues) as string;
+    const url = this.getUrl(templateValues);
 
     await test.step(`Открыть страницу "${this.name}" по ссылке "${this.baseURL}${url}"`, async () => {
       await this.page.goto(url);
     });
 
-    await this.isLoaded(templateValues);
+    await this.isLoaded();
   }
 
-  public async isLoaded(templateValues?: TemplateStringValues) {
+  public async isLoaded() {
     await test.step(`Страница "${this.name}" успешно загрузилась`, async () => {
-      await this.shouldHaveValidURL(templateValues);
+      await this.shouldHaveValidURL();
     });
   }
 
-  private async shouldHaveValidURL(templateValues?: TemplateStringValues) {
-    const url = this.getUrl(templateValues);
+  private async shouldHaveValidURL() {
+    const urlRegex = TemplateStringUtils.formatToRegex(this.url);
 
-    await test.step(`URL текущей страницы "${this.baseURL}${url}"`, async () => {
-      await expect(this.page).toHaveURL(url);      
+    await test.step(`URL текущей страницы "${this.baseURL}${this.url}"`, async () => {
+      await expect(this.page).toHaveURL(urlRegex);
     });
   }
 
-
-  private getUrl(values?: TemplateStringValues): string | RegExp {
-    if (typeof(this.url) === 'string') {
-      return values ? formatTemplateString(this.url, values) : this.url;
-    }
-
-    return this.url;
+  private getUrl(values?: TemplateStringValues): string {
+    return values ? TemplateStringUtils.format(this.url, values) : this.url;
   }
 
 
