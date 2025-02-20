@@ -4,7 +4,6 @@ on:
 jobs:
   playwright:
     env:
-      BASE_URL: https://siptest-beta.rt.ru
       ADMIN_USER_LOGIN: ${{ secrets.ADMIN_USERNMAE }}
       ADMIN_USER_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     name: 'Playwright Tests'
