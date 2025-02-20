@@ -4,8 +4,8 @@ on:
 jobs:
   playwright:
     env:
-      ADMIN_USER_LOGIN: ${{ secrets.ADMIN_USERNMAE }}
-      ADMIN_USER_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+      ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+      ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
     name: 'Playwright Tests'
     runs-on: ubuntu-latest
     container:
