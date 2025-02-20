@@ -7,7 +7,7 @@ test('Авторизация валидным пользователем', async
   const loginPage = new LoginPage(page);
 
   const adminUser: User = {
-    username: process.env.ADMIN_USER as string,
+    username: process.env.ADMIN_USERNAME as string,
     password: process.env.ADMIN_PASSWORD as string
   };
 
